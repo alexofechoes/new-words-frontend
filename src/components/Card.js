@@ -23,7 +23,7 @@ export default function App(props) {
   };
 
   return (
-    <Card style={{marginBottom: '2rem'}}>
+    <Card style={{ marginBottom: "2rem" }}>
       <CardActionArea onClick={sayHandle}>
         <CardMedia
           image="/static/images/cards/contemplative-reptile.jpg"
@@ -31,7 +31,7 @@ export default function App(props) {
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            { card.name }
+            {card.name}
           </Typography>
           <Typography
             variant="body2"
