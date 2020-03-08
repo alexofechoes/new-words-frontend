@@ -3,12 +3,11 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Card from "../components/Card";
-import axios from "axios";
 import { keysToCamelCase } from "../helpers/objects";
 import produce from "immer";
 
 const apiUrl = "http://127.0.0.1:8000/api/words";
-const familiarUrl = "http://127.0.0.1:8000/api/words/familiar/";
+const familiarUrl = "http://127.0.0.1:8000/api/words/familiar";
 
 export default class CardList extends React.Component {
   state = {
@@ -16,8 +15,8 @@ export default class CardList extends React.Component {
   };
 
   async componentDidMount() {
-    const { token } = this.props;
-    const response = await axios.get(`${apiUrl}?format=json`, {
+    const { client, token } = this.props;
+    const response = await client.get(`${apiUrl}?format=json`, {
       headers: { Authorization: `Bearer ${token.access}` }
     });
     const cards = response.data.map(keysToCamelCase);
@@ -27,10 +26,10 @@ export default class CardList extends React.Component {
 
   knowHandle = id => async () => {
     const { cards } = this.state;
-    const { token } = this.props;
+    const { client, token } = this.props;
 
     try {
-      await axios.get(`${familiarUrl}/${id}`, {
+      await client.get(`${familiarUrl}/${id}`, {
         headers: { Authorization: `Bearer ${token.access}` }
       });
 
@@ -46,10 +45,10 @@ export default class CardList extends React.Component {
 
   deleteHandle = id => async () => {
     const { cards } = this.state;
-    const { token } = this.props;
+    const { client, token } = this.props;
 
     try {
-      await axios.delete(`${apiUrl}/${id}`, {
+      await client.delete(`${apiUrl}/${id}`, {
         headers: { Authorization: `Bearer ${token.access}` }
       });
       const filteredCards = cards.filter(card => card.id !== id);
