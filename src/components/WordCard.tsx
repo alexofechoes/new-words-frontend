@@ -1,4 +1,5 @@
-import React from "react";
+import React from 'react';
+import { Word } from '../types';
 
 import {
   Button,
@@ -8,22 +9,27 @@ import {
   CardContent,
   CardActions,
   Typography
-} from "@material-ui/core";
+} from '@material-ui/core';
 
-export default function App(props) {
-  const { card, knowHandle, deleteHandle } = props;
-  const word = card.name;
+interface IWordCardProps {
+  word: Word;
+  knowHandle(): void;
+  deleteHandle(): void;
+}
+
+export default function WordCard(props: IWordCardProps) {
+  const { word, knowHandle, deleteHandle } = props;
 
   const sayHandle = () => {
-    speechSynthesis.speak(new SpeechSynthesisUtterance(word));
+    speechSynthesis.speak(new SpeechSynthesisUtterance(word.name));
   };
 
   const copyWordHandle = async () => {
-    await navigator.clipboard.writeText(word);
+    await navigator.clipboard.writeText(word.name);
   };
 
   return (
-    <Card style={{ marginBottom: "2rem" }}>
+    <Card style={{ marginBottom: '2rem' }}>
       <CardActionArea onClick={sayHandle}>
         <CardMedia
           image="/static/images/cards/contemplative-reptile.jpg"
@@ -31,7 +37,7 @@ export default function App(props) {
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            {card.name}
+            {word.name}
           </Typography>
           <Typography
             variant="body2"
