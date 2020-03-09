@@ -5,20 +5,15 @@ import MainStore from './stores/mainStore';
 import WordCardList from './components/WordCardList';
 import SignInForm from './components/SignInForm';
 
-@observer
-export default class App extends React.Component<{ store: MainStore }, {}> {
-  componentDidMount() {
-    const { store } = this.props;
-    store.fetchToken();
-  }
+function App(props: { store: MainStore }) {
+  const { store } = props;
+  store.fetchToken();
 
-  render() {
-    const { store } = this.props;
-    const { token } = store;
-
-    if (!token) {
-      return <SignInForm handleLogin={this.props.store.login} />;
-    }
-    return <WordCardList store={store} />;
+  const { token } = store;
+  if (!token) {
+    return <SignInForm handleLogin={props.store.login} />;
   }
+  return <WordCardList store={store} />;
 }
+
+export default observer(App);
