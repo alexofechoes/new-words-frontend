@@ -4,9 +4,12 @@ import client, { addSubscriber } from '../helpers/client';
 import storage from '../helpers/storage';
 import { Word, Token } from '../types';
 
-const tokenUrl = 'http://localhost:8000/api/token/';
-const apiUrl = 'http://localhost:8000/api/words';
-const familiarUrl = 'http://localhost:8000/api/words/familiar';
+const baseUrl = 'http://localhost:8000/api/'
+const tokenUrl = `${baseUrl}token/`;
+const apiUrl = `${baseUrl}words/`;
+const familiarUrl = `${baseUrl}/words/familiar`;
+
+const isEmptyObj = (obj: Object) => Object.keys(obj).length;
 
 export default class MainStore {
   @observable words: Word[] = [];
@@ -15,7 +18,7 @@ export default class MainStore {
   @action
   fetchToken() {
     let token = storage.get('token');
-    if (token) {
+    if (isEmptyObj(token)) {
       this.token = token;
     }
 
